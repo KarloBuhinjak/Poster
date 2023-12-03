@@ -80,7 +80,8 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                 name="email"
                 id="email"
                 placeholder="E-mail adress"
-                value="<?= htmlspecialchars($_POST["email"] ?? "") ?>">
+                value="<?= htmlspecialchars(isset($_POST["email"]) ? $_POST["email"] : "") ?>">
+
 
         </div>
         <div class="form-field d-flex align-items-center">

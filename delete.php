@@ -1,13 +1,11 @@
 <?php
 
-$connection =  mysqli_connect("localhost", "root", "");
-$db = mysqli_select_db($connection, 'test');
-
+$mysqli = require __DIR__ . "/database.php";
 if(isset($_POST['delete'])){
     $id  = $_POST['id'];
 
-    $query = "DELETE FROM postss WHERE id='$id'";
-    $query_run = mysqli_query($connection, $query);
+    $query = "DELETE FROM post WHERE id='$id'";
+    $query_run = mysqli_query($mysqli, $query);
 }
 
 if($query_run){

@@ -219,20 +219,16 @@ $total = count($employees);
 
 
             <?php
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "test";
+//
+            $mysqli = require __DIR__ . "/database.php";
 
-            // Create connection
-            $conn = new mysqli($servername, $username, $password, $dbname);
-            // Check connection
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
+
+            if($mysqli === false){
+                die("ERROR: Could not connect. " . mysqli_connect_error());
             }
 
-            $sql = "SELECT id, user_name, title, text FROM postss  ORDER BY id DESC";
-            $result = $conn->query($sql);
+            $sql = "SELECT id, user_name, title, text, created_time FROM post  ORDER BY id DESC";
+            $result = $mysqli->query($sql);
 
             if ($result->num_rows > 0) {
                 // output data of each row
@@ -262,7 +258,7 @@ $total = count($employees);
                 </div>
                 <div class="card-body">
                     <div class="text-muted h7 mb-2">
-                        <i class="fa fa-clock-o"></i>
+                        <i class="fa fa-clock-o"><?php echo $row["created_time"];?></i>
                     </div>
                     <a class="card-link" href="#">
                         <h5 class="card-title">
@@ -277,12 +273,9 @@ $total = count($employees);
                     </p>
                 </div>
                 <div class="card-footer">
-                    <a href="#" class="card-link"
-                    ><i class="fa fa-gittip"></i> Like</a
-                    >
-                    <a href="#" class="card-link"
-                    ><i class="fa fa-comment"></i> Comment</a
-                    >
+<!--                    <a href="#" class="card-link"><i class="fa fa-trash"></i> Delete</a>-->
+
+
 
                     <form action="delete.php" method="post" style="display: inline-block">
                         <input type="hidden" name="id" value="<?php echo $row["id"] ?>">
@@ -293,61 +286,7 @@ $total = count($employees);
                        >
                     </form>
 
-                  <!--  modal ---->
 
-                    <div class="container" style="display: inline">
-                        <button type="button"  data-toggle="modal" data-target="#myModal"></button>
-                        <div class="modal fade" id="myModal" role="dialog">
-                            <div class="modal-dialog">
-
-                                <!-- Modal content-->
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Edit Post</h4>
-
-                                    </div>
-                                    <p>asdasasd </p>
-                                    <form action="update.php" id="edit-form">
-                                    <div class="modal-body">
-                                            <input class="form-control" type="hidden" name="id">
-                                            <textarea
-                                                    class="form-control"
-                                                    id="title"
-                                                    rows="1"
-                                                    placeholder="Title"
-                                                    name="title1"
-                                                    required
-                                            ></textarea>
-                                            <textarea
-                                                    class="form-control"
-                                                    id="post"
-                                                    rows="3"
-                                                    placeholder="What are you thinking?"
-                                                    name="post1"
-                                                    required
-                                            ></textarea>
-
-
-
-                            <div class="btn-toolbar justify-content-between">
-                                <div class="btn-group">
-                                    <button type="submit" class="btn btn-dark" id="post-btn">Update</button>
-                                </div>
-                                    </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-
-                            </div>
-
-
-                            </div>
-
-                    </div>
-
-                    <!--  modal-->
 
                 </div>
 
@@ -357,7 +296,7 @@ $total = count($employees);
                 }
             }
 //<i class="fa fa-trash" aria-hidden="true"></i>
-            $conn->close();
+            $mysqli->close();
 
 
             ?>
